@@ -11,6 +11,10 @@ import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Hidden from "@material-ui/core/Hidden";
 import Drawer from "@material-ui/core/Drawer";
+import HeaderLinks from "components/Header/HeaderLinks.jsx";
+import { Redirect } from 'react-router-dom'
+
+
 // @material-ui/icons
 import Menu from "@material-ui/icons/Menu";
 // core components
@@ -20,11 +24,16 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobileOpen: false
+      mobileOpen: false,
+      userProfile : {}
     };
+    
     this.handleDrawerToggle = this.handleDrawerToggle.bind(this);
     this.headerColorChange = this.headerColorChange.bind(this);
   }
+
+  userProfile;
+
   handleDrawerToggle() {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   }
@@ -52,11 +61,43 @@ class Header extends React.Component {
         .classList.remove(classes[changeColorOnScroll.color]);
     }
   }
+
   componentWillUnmount() {
+
     if (this.props.changeColorOnScroll) {
       window.removeEventListener("scroll", this.headerColorChange);
     }
   }
+
+componentWillMount(){
+
+ //  this.loadProfile();
+}
+
+loadProfile(){
+  const {auth} = this.props;
+
+  if(auth && auth.isAuthenticated()){
+
+    const profile = auth.getProfileCached();
+
+    console.log(profile);
+
+    if(profile){
+      this.setState({userProfile : profile})
+    }else{
+       auth.getProfile((err, profile) =>{
+        console.log("loaded the button");
+        this.userProfile = profile;
+        this.setState({userProfile : profile})
+         console.log(this.userProfile);
+      });
+     // console.log(this.userProfile);
+    }      
+  }
+}
+
+
   render() {
     const {
       classes,
@@ -73,22 +114,40 @@ class Header extends React.Component {
       [classes.absolute]: absolute,
       [classes.fixed]: fixed
     });
-    const brandComponent = <Button className={classes.title}>{brand}</Button>;
+
+    const {auth, userProfile, userRoles, userGroups} = this.props;
+
+    var button = "Login";
+    // console.log(this.userProfile)
+
+    // const { userProfile } = this.state;
+
+    var brandComponent = <Button onClick={() => {auth.login()}} className={classes.title}>{button}</Button>;
+
+    if(auth && auth.isAuthenticated()){
+      if(userProfile){
+        button = userProfile.nickname;
+      }else{
+        button = "Loading profile"  ;
+      }
+      
+      brandComponent = <Button onClick={() => {this.props.history.push(`/`)}}  className={classes.title}>{button}</Button>;
+    }
+    
     return (
       <AppBar className={appBarClasses}>
         <Toolbar className={classes.container}>
           {leftLinks !== undefined ? brandComponent : null}
           <div className={classes.flex}>
-            {leftLinks !== undefined ? (
-              <Hidden smDown implementation="css">
-                {leftLinks}
-              </Hidden>
-            ) : (
-              brandComponent
-            )}
+             {brandComponent}
           </div>
           <Hidden smDown implementation="css">
-            {rightLinks}
+            {(auth && auth.isAuthenticated() && userProfile) ? (<HeaderLinks 
+              auth = {auth}
+              userProfile = {userProfile}
+              userRoles = {userRoles}
+              userGroups = {userGroups}
+              />) : (<div></div>)}
           </Hidden>
           <Hidden mdUp>
             <IconButton

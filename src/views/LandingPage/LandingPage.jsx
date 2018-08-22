@@ -14,6 +14,12 @@ import GridItem from "components/Grid/GridItem.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import Parallax from "components/Parallax/Parallax.jsx";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import Email from "@material-ui/icons/Email";
+import CustomDropdown from "components/CustomDropdown/CustomDropdown.jsx";
+import profileImage from "assets/img/faces/avatar.jpg";
+import SectionTabs from "views/Components/Sections/SectionTabs.jsx";
 
 import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.jsx";
 
@@ -21,57 +27,129 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 import ProductSection from "./Sections/ProductSection.jsx";
 import TeamSection from "./Sections/TeamSection.jsx";
 import WorkSection from "./Sections/WorkSection.jsx";
+import Welcome from "./Sections/Welcome.jsx";
+import SubscriberSection from "./Sections/SubscriberSection.jsx";
+
 
 const dashboardRoutes = [];
 
 class LandingPage extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+
+      userProfile : {}
+    };
+
+  }
+
+
+  componentWillMount(){
+
+    const {auth} = this.props;
+  
+      if(auth && auth.isAuthenticated()){
+  
+        const profile = auth.getProfileCached();
+  
+        // console.log(profile);
+  
+        if(profile){
+          this.setState({userProfile : profile})
+        }else{
+           auth.getProfile((err, profile) =>{
+            // console.log("loaded the button");
+           
+            this.setState({userProfile : profile})
+           
+          });
+
+        }      
+      }
+  }
+
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes, auth, ...rest } = this.props;
+
+    var teamSection;
+    var workSection;
+    var subscriptionSection;
+
+    const { userProfile } = this.state;
+
+    var userProfileString = "";
+
+    var userRoles = [];
+    var userGroups = [];
+
+    if(userProfile){
+
+      userProfileString = JSON.stringify(userProfile, null, 2) 
+
+      if(userProfile["https://example.com/roles"]){
+        userProfile["https://example.com/roles"].map(((name, index) => {
+          userRoles.push(name);
+        }));
+      }
+      if(userProfile["https://example.com/groups"]){
+        userProfile["https://example.com/groups"].map(((name, index) => {
+          userGroups.push(name);
+        }));
+      }
+    }
+
+    if(auth && auth.isAuthenticated()){
+     
+
+      if(userGroups.includes("marketing") || userRoles.includes("admin") ){
+        teamSection = <TeamSection />;
+      }
+
+      if(userGroups.includes("cs") || userGroups.includes("engineering") || userRoles.includes("admin") ){
+        workSection = <WorkSection />;
+      }
+
+      if((userGroups === undefined || userGroups.length == 0)){
+        subscriptionSection = <SubscriberSection />;
+      }
+
+      
+    }
+    
+
     return (
       <div>
-        <Header
-          color="transparent"
-          routes={dashboardRoutes}
-          brand="Material Kit React"
-          rightLinks={<HeaderLinks />}
-          fixed
-          changeColorOnScroll={{
-            height: 400,
-            color: "white"
-          }}
-          {...rest}
-        />
+       
+         <Header
+              brand="Navbar with notifications"
+              color="dark"
+              rightLinks={<HeaderLinks auth = {auth} />}
+              fixed
+              changeColorOnScroll={{
+                height: 400,
+                color: "white"
+              }}
+              auth = {auth}
+              userProfile = {userProfile}
+              userRoles = {userRoles}
+              userGroups = {userGroups}
+              {...rest}
+            />
         <Parallax filter image={require("assets/img/landing-bg.jpg")}>
           <div className={classes.container}>
-            <GridContainer>
-              <GridItem xs={12} sm={12} md={6}>
-                <h1 className={classes.title}>Your Story Starts With Us.</h1>
-                <h4>
-                  Every landing page needs a small description after the big
-                  bold title, that's why we added this text here. Add here all
-                  the information thatx can make you or your product create the
-                  first impression.
-                </h4>
-                <br />
-                <Button
-                  color="danger"
-                  size="lg"
-                  href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i className="fas fa-play" />Watch video
-                </Button>
-              </GridItem>
-            </GridContainer>
+            {userProfileString}
+            <Welcome />
           </div>
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div className={classes.container}>
+            {teamSection}
+            {workSection}
             <ProductSection />
-            <TeamSection />
-            <WorkSection />
+            
           </div>
+          {subscriptionSection}
         </div>
         <Footer />
       </div>

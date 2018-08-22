@@ -32,15 +32,56 @@ import work5 from "assets/img/examples/clem-onojegaw.jpg";
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
+
 class ProfilePage extends React.Component {
+
+
+  constructor(props){
+    super(props);
+  }
+
+  
+  componentWillMount(){
+    
+    const { classes, auth, ...rest } = this.props;
+    this.setState({ profile: {}, profileMetadata : {} });
+
+    console.log(auth.isAuthenticated());
+
+    if(!auth.isAuthenticated()){
+      auth.login();
+    }else{
+      
+      const { userProfile, getProfile, getProfileMetadata } = auth;
+      console.log(userProfile);
+      if (!userProfile) {
+        getProfile((err, profile) => {
+          console.log(profile);
+          this.setState({ profile });
+          getProfileMetadata(profile, (err, profileMetadata) => {
+            this.setState({profileMetadata});
+          });
+        });
+      } else {
+        this.setState({ profile: userProfile });
+      }
+
+      
+
+    }
+  }
+
   render() {
-    const { classes, ...rest } = this.props;
+    const { classes,auth, ...rest } = this.props;
     const imageClasses = classNames(
       classes.imgRaised,
       classes.imgRoundedCircle,
       classes.imgFluid
     );
     const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
+
+    const { profile, profileMetadata } = this.state;
+
     return (
       <div>
         <Header
@@ -52,6 +93,8 @@ class ProfilePage extends React.Component {
             height: 200,
             color: "white"
           }}
+          auth = {auth}
+          userProfile = {profile}
           {...rest}
         />
         <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
@@ -62,11 +105,11 @@ class ProfilePage extends React.Component {
                 <GridItem xs={12} sm={12} md={6}>
                   <div className={classes.profile}>
                     <div>
-                      <img src={profile} alt="..." className={imageClasses} />
+                      <img src={profile.picture} alt="..." className={imageClasses} />
                     </div>
                     <div className={classes.name}>
-                      <h3 className={classes.title}>Christian Louboutin</h3>
-                      <h6>DESIGNER</h6>
+                      <h3 className={classes.title}>{profile.nickname}</h3>
+                      <h6>{profile.department}</h6>
                       <Button justIcon link className={classes.margin5}>
                         <i className={"fab fa-twitter"} />
                       </Button>
@@ -82,10 +125,7 @@ class ProfilePage extends React.Component {
               </GridContainer>
               <div className={classes.description}>
                 <p>
-                  An artist of considerable range, Chet Faker — the name taken
-                  by Melbourne-raised, Brooklyn-based Nick Murphy — writes,
-                  performs and records all of his own music, giving it a warm,
-                  intimate feel with a solid groove structure.{" "}
+                  {JSON.stringify(profile, null, 2) }{" "}
                 </p>
               </div>
               <GridContainer justify="center">
