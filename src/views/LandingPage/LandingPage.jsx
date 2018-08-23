@@ -138,7 +138,6 @@ class LandingPage extends React.Component {
             />
         <Parallax filter image={require("assets/img/landing-bg.jpg")}>
           <div className={classes.container}>
-            {userProfileString}
             <Welcome />
           </div>
         </Parallax>
