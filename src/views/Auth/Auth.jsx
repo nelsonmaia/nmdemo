@@ -9,15 +9,16 @@ export default class Auth {
     this.getAccessToken = this.getAccessToken.bind(this);
     this.getProfileMetadata = this.getProfileMetadata.bind(this);
     this.getProfileCached = this.getProfileCached.bind(this);
+    this.getUsers = this.getUsers.bind(this);
   }
 
   userProfile;
 
   auth0 = new auth0.WebAuth({
-    domain: 'delegateadmin.eu.auth0.com',
-    clientID: 'uCXX7yjxPsEVRV5zQy4aRbRlHAY9I9u7',
-    redirectUri: 'http://localhost:3000/callback',
-    audience: 'https://delegateadmin.eu.auth0.com/api/v2/',
+    domain: process.env.REACT_APP_AUTH0_DOMAIN,
+    clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+    redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
+    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
     responseType: 'token id_token',
     scope: 'openid profile email read:users read:current_user'
   });
@@ -26,17 +27,26 @@ export default class Auth {
     this.auth0.authorize();
   }
 
-  handleAuthentication() {
+  handleAuthentication(cb) {
+
+    console.log("handling authentication");
+
     this.auth0.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
-        history.replace('/profile-page');
+        history.replace('/');
       } else if (err) {
         console.log("no else");
         history.replace('/');
 
 
         console.log(err);
+
+        cb();
+
+      }else{
+        console.log("Not authen");
+        history.replace('/');
       }
     });
   }
@@ -60,7 +70,8 @@ export default class Auth {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // navigate to the home route
-    history.replace('/home');
+    this.auth0.logout({returnTo: process.env.REACT_APP_AUTH0_CALLBACK_URL});
+    history.replace('/');
   }
 
   isAuthenticated() {
@@ -81,16 +92,25 @@ export default class Auth {
   }
 
   getProfile(cb) {
+
     let accessToken = this.getAccessToken();
+
+    
     this.auth0.client.userInfo(accessToken, (err, profile) => {
+      console.log("in the getProfile " + accessToken);
+  
       if (profile) {
         this.userProfile = profile;
-        //console.log("getProfile was trigger");
-        //console.log(this.userProfile);
       }
       cb(err, profile);
       return profile;
     });
+  }
+
+  getUsers(){
+    axios.post("http://localhost:3001/users",this.userProfile, {
+      headers: { Authorization: "Bearer " + this.getAccessToken()}
+    }).then(response => {console.log(response);});
   }
 
   getProfileCached(){
@@ -124,17 +144,23 @@ export default class Auth {
     //   .then(response => console.log(response))
     //   .catch(error => console.log(error));
 
-    var auth0Manage = new auth0.Management({
-      domain: 'delegateadmin.eu.auth0.com',
-      token: this.getAccessToken()
-    });
+    // var auth0Manage = new auth0.Management({
+    //   domain: 'delegateadmin.eu.auth0.com',
+    //   token: this.getAccessToken()
+    // });
 
-    auth0Manage.getUser(profile.sub, (err, getResult) => {
-      //console.log("getUser was...");
-      //console.log(JSON.stringify(getResult, null, '  '))
-      cb(err, getResult);
+    // auth0Manage.getUser(profile.sub, (err, getResult) => {
+    //   //console.log("getUser was...");
+    //   //console.log(JSON.stringify(getResult, null, '  '))
+    //   cb(err, getResult);
 
-    })
+    // })
+
+    axios.post("http://localhost:3001/users",this.userProfile, {
+      headers: { Authorization: "Bearer " + this.getAccessToken()}
+    }).then(response => {cb(null, response.data)});
+
+
   }
 
   getUserRoles(userProfile){

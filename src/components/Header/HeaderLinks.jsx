@@ -24,7 +24,9 @@ import image from "assets/img/bg.jpg";
 import profileImage from "assets/img/faces/avatar.jpg";
 
 function HeaderLinks({ ...props }) {
-  const { classes, auth, userProfile, userRoles} = props;
+  const { classes, auth, userProfile, userRoles,userGroups, history} = props;
+
+  var headerText = "Welcome, " + userProfile.nickname;
 
   return (
     <List className={classes.list}>
@@ -50,6 +52,50 @@ function HeaderLinks({ ...props }) {
                      </Button>
                    </ListItem>
                   ) : ('')}
+
+                   {(userRoles && userRoles.includes("admin")) ? (
+                     <ListItem className={classes.listItem}>
+                     <Button
+                       href="#pablo"
+                       className={classes.navLink}
+                       onClick={e => auth.getUsers()}
+                       color="transparent"
+                     >
+                       Invoke Get Users
+                     </Button>
+                   </ListItem>
+                  ) : ('')}
+                  {(userGroups && userGroups.includes("marketing")) ? (
+                     <ListItem className={classes.listItem}>
+                     <Button
+                       href="#pablo"
+                       className={classes.navLink}
+                       color="transparent">
+                      Campaigns
+                     </Button>
+                   </ListItem>
+                  ) : ('')}
+                   {(userGroups && userGroups.includes("marketing")) ? (
+                   <ListItem className={classes.listItem}>
+                   <Button
+                     href="#pablo"
+                     className={classes.navLink}
+                     color="transparent">
+                    Collateral
+                   </Button>
+                 </ListItem>
+                  ) : ('')}
+                   {(userGroups && userGroups.includes("marketing")) ? (
+                 <ListItem className={classes.listItem}>
+                 <Button
+                   href="#pablo"
+                   className={classes.navLink}
+                   color="transparent">
+                  Eloqua
+                 </Button>
+               </ListItem>
+                  ) : ('')}
+                            
                  
                   <ListItem className={classes.listItem}>
                     <Button
@@ -68,7 +114,7 @@ function HeaderLinks({ ...props }) {
                       left
                       caret={false}
                       hoverColor="black"
-                      dropdownHeader="Dropdown Header"
+                      dropdownHeader={headerText}
                       buttonText={
                         <img
                           src={userProfile.picture}
@@ -82,10 +128,12 @@ function HeaderLinks({ ...props }) {
                         color: "transparent"
                       }}
                       dropdownList={[
-                        "Me",
-                        "Settings and other stuff",
-                        "Sign out"
+                        {"text":"Me", "link" : "profile"},
+                        {"text": "Settings and other stuff", "link" : "profile"},
+                        {"text":"Sign out", "link" : "logout"}
                       ]}
+                      auth={auth}
+                      history={history}
                     />
                   </ListItem>
                 </List>

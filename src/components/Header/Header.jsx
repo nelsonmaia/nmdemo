@@ -115,7 +115,7 @@ loadProfile(){
       [classes.fixed]: fixed
     });
 
-    const {auth, userProfile, userRoles, userGroups} = this.props;
+    const {auth, userProfile, userRoles, userGroups, history} = this.props;
 
     var button = "Login";
     // console.log(this.userProfile)
@@ -128,7 +128,7 @@ loadProfile(){
       if(userProfile){
         button = userProfile.nickname;
       }else{
-        button = "Loading profile"  ;
+        button = "Loading profile" + userProfile  ;
       }
       
       brandComponent = <Button onClick={() => {this.props.history.push(`/`)}}  className={classes.title}>{button}</Button>;
@@ -144,6 +144,7 @@ loadProfile(){
           <Hidden smDown implementation="css">
             {(auth && auth.isAuthenticated() && userProfile) ? (<HeaderLinks 
               auth = {auth}
+              history = {history}
               userProfile = {userProfile}
               userRoles = {userRoles}
               userGroups = {userGroups}

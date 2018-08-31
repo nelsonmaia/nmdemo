@@ -49,7 +49,9 @@ class CustomDropdown extends React.Component {
       hoverColor,
       left,
       rtlActive,
-      noLiPadding
+      noLiPadding,
+      auth,
+      history
     } = this.props;
     const caretClasses = classNames({
       [classes.caret]: true,
@@ -143,10 +145,12 @@ class CustomDropdown extends React.Component {
                       return (
                         <MenuItem
                           key={key}
-                          onClick={this.handleClose}
+                          onClick={prop.link !== undefined ? (
+                            prop.link === 'profile' ? (() => {history.push(`/profile-page`)}) : (() => {auth.logout()})
+                          ) : this.handleClose }
                           className={dropdownItem}
                         >
-                          {prop}
+                          {prop.text}
                         </MenuItem>
                       );
                     })}

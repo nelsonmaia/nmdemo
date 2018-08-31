@@ -32,6 +32,9 @@ import work5 from "assets/img/examples/clem-onojegaw.jpg";
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
+// Authorization
+import { hasRole, isAllowed, getGroups, getRoles } from '../../authorization';
+
 
 class ProfilePage extends React.Component {
 
@@ -65,9 +68,6 @@ class ProfilePage extends React.Component {
       } else {
         this.setState({ profile: userProfile });
       }
-
-      
-
     }
   }
 
@@ -82,21 +82,31 @@ class ProfilePage extends React.Component {
 
     const { profile, profileMetadata } = this.state;
 
+    const { userProfile } = this.state;
+
+    var userRoles = [];
+    var userGroups = [];
+
+    userGroups = getGroups(profile);
+    userRoles = getRoles(profile);
+
     return (
       <div>
         <Header
-          color="transparent"
-          brand="Material Kit React"
-          rightLinks={<HeaderLinks />}
-          fixed
-          changeColorOnScroll={{
-            height: 200,
-            color: "white"
-          }}
-          auth = {auth}
-          userProfile = {profile}
-          {...rest}
-        />
+              brand="Navbar with notifications"
+              color="dark"
+              rightLinks={<HeaderLinks auth = {auth} />}
+              fixed
+              changeColorOnScroll={{
+                height: 400,
+                color: "white"
+              }}
+              auth = {auth}
+              userProfile = {profile}
+              userRoles = {userRoles}
+              userGroups = {userGroups}
+              {...rest}
+            />
         <Parallax small filter image={require("assets/img/profile-bg.jpg")} />
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div>
@@ -125,7 +135,7 @@ class ProfilePage extends React.Component {
               </GridContainer>
               <div className={classes.description}>
                 <p>
-                  {JSON.stringify(profile, null, 2) }{" "}
+                  {JSON.stringify(profileMetadata, null, 2) }{" "}
                 </p>
               </div>
               <GridContainer justify="center">

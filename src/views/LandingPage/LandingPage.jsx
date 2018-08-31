@@ -30,6 +30,9 @@ import WorkSection from "./Sections/WorkSection.jsx";
 import Welcome from "./Sections/Welcome.jsx";
 import SubscriberSection from "./Sections/SubscriberSection.jsx";
 
+// Authorization
+import { hasRole, isAllowed, getGroups, getRoles } from '../../authorization';
+
 
 const dashboardRoutes = [];
 
@@ -83,21 +86,8 @@ class LandingPage extends React.Component {
     var userRoles = [];
     var userGroups = [];
 
-    if(userProfile){
-
-      userProfileString = JSON.stringify(userProfile, null, 2) 
-
-      if(userProfile["https://example.com/roles"]){
-        userProfile["https://example.com/roles"].map(((name, index) => {
-          userRoles.push(name);
-        }));
-      }
-      if(userProfile["https://example.com/groups"]){
-        userProfile["https://example.com/groups"].map(((name, index) => {
-          userGroups.push(name);
-        }));
-      }
-    }
+    userRoles = getRoles(userProfile);
+    userGroups = getGroups(userProfile);
 
     if(auth && auth.isAuthenticated()){
      
@@ -136,9 +126,15 @@ class LandingPage extends React.Component {
               userGroups = {userGroups}
               {...rest}
             />
-        <Parallax filter image={require("assets/img/landing-bg.jpg")}>
+        <Parallax filter image={userGroups.includes("marketing") ? 
+              (
+                require("assets/img/bg3.jpg") ) : 
+                  (auth.isAuthenticated() ? 
+                    require("assets/img/profile_city.jpg") : 
+                    require("assets/img/bg.jpg")
+              )}>
           <div className={classes.container}>
-            <Welcome />
+            <Welcome userGroups={userGroups} auth={auth} userRoles={userRoles} />
           </div>
         </Parallax>
         <div className={classNames(classes.main, classes.mainRaised)}>
