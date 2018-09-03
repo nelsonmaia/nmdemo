@@ -17,17 +17,31 @@ export default class Auth {
   auth0 = new auth0.WebAuth({
     domain: process.env.REACT_APP_AUTH0_DOMAIN,
     clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
-    redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
-    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-    responseType: 'token id_token',
-    scope: 'openid profile email read:users read:current_user'
   });
 
   login() {
-    this.auth0.authorize();
+    this.auth0.authorize({
+      redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
+      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      responseType: 'token id_token',
+      scope: 'openid profile email '
+    });
   }
 
-  handleAuthentication(cb) {
+  loginFederated(){
+
+
+    this.auth0.authorize({
+      
+      redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
+      // audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      responseType: 'token id_token',
+      scope: 'openid profile email ',
+      connection: 'SAML-Auth0-IDP'});
+
+  }
+
+  handleAuthentication() {
 
     console.log("handling authentication");
 
@@ -41,9 +55,6 @@ export default class Auth {
 
 
         console.log(err);
-
-        cb();
-
       }else{
         console.log("Not authen");
         history.replace('/');
@@ -108,7 +119,7 @@ export default class Auth {
   }
 
   getUsers(){
-    axios.post("http://localhost:3001/users",this.userProfile, {
+    axios.post(process.env.REACT_APP_NMAPI_URL,this.userProfile, {
       headers: { Authorization: "Bearer " + this.getAccessToken()}
     }).then(response => {console.log(response);});
   }
@@ -156,7 +167,7 @@ export default class Auth {
 
     // })
 
-    axios.post("http://localhost:3001/users",this.userProfile, {
+    axios.post(process.env.REACT_APP_NMAPI_URL,this.userProfile, {
       headers: { Authorization: "Bearer " + this.getAccessToken()}
     }).then(response => {cb(null, response.data)});
 

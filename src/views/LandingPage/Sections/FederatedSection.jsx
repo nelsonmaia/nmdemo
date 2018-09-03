@@ -13,14 +13,14 @@ import InfoArea from "components/InfoArea/InfoArea.jsx";
 
 import productStyle from "assets/jss/material-kit-react/views/landingPageSections/productStyle.jsx";
 
-class ProductSection extends React.Component {
+class FederatedSection extends React.Component {
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.section}>
         <GridContainer justify="center">
           <GridItem xs={12} sm={12} md={8}>
-            <h2 className={classes.title}>Our Products</h2>
+            <h2 className={classes.title}>Welcome to The Economist</h2>
             <h5 className={classes.description}>
               This is the paragraph where you can write more details about your
               product. Keep you user engaged by providing meaningful
@@ -30,7 +30,7 @@ class ProductSection extends React.Component {
             </h5>
           </GridItem>
         </GridContainer>
-        <div>
+        {/* <div>
           <GridContainer>
             <GridItem xs={12} sm={12} md={4}>
               <InfoArea
@@ -60,10 +60,10 @@ class ProductSection extends React.Component {
               />
             </GridItem>
           </GridContainer>
-        </div>
+        </div> */}
       </div>
     );
   }
 }
 
-export default withStyles(productStyle)(ProductSection);
+export default withStyles(productStyle)(FederatedSection);

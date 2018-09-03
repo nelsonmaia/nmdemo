@@ -51,3 +51,25 @@ export const getPermissions = (userProfile) => {
     return userPermissions;
 }
 
+export const getConnectionStratey = (userProfile) => {
+
+    var connectionStrategy;
+
+    if(userProfile){
+        if(userProfile["https://nmdemo.com/connectionStrategy"]){
+         connectionStrategy = userProfile["https://nmdemo.com/connectionStrategy"];
+        }
+      }
+
+    return connectionStrategy;
+}
+
+export const isUserSocial = (userProfile) => {
+    if(userProfile){
+        return getConnectionStratey(userProfile) === "social";
+    }else{
+        return false;
+    }
+    
+}
+

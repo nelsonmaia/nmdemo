@@ -23,6 +23,8 @@ import navbarsStyle from "assets/jss/material-kit-react/views/componentsSections
 import image from "assets/img/bg.jpg";
 import profileImage from "assets/img/faces/avatar.jpg";
 
+import { getConnectionStratey } from '../../authorization';
+
 function HeaderLinks({ ...props }) {
   const { classes, auth, userProfile, userRoles,userGroups, history} = props;
 
@@ -30,7 +32,8 @@ function HeaderLinks({ ...props }) {
 
   return (
     <List className={classes.list}>
-                  <ListItem className={classes.listItem}>
+                  {getConnectionStratey(userProfile) !== "social" && !userRoles.includes("Federated User") ? (
+                    <ListItem className={classes.listItem}>
                     <Button
                       href="#pablo"
                       className={classes.navLink}
@@ -40,6 +43,8 @@ function HeaderLinks({ ...props }) {
                       Discover
                     </Button>
                   </ListItem>
+                  ) : null}
+                  
                   {(userRoles && userRoles.includes("admin")) ? (
                      <ListItem className={classes.listItem}>
                      <Button
@@ -96,7 +101,7 @@ function HeaderLinks({ ...props }) {
                </ListItem>
                   ) : ('')}
                             
-                 
+                 {!userRoles.includes("Federated User") ? (
                   <ListItem className={classes.listItem}>
                     <Button
                       justIcon
@@ -109,6 +114,8 @@ function HeaderLinks({ ...props }) {
                       <Email className={classes.icons} />
                     </Button>
                   </ListItem>
+                 ) : null}
+                  
                   <ListItem className={classes.listItem}>
                     <CustomDropdown
                       left

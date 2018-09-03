@@ -118,20 +118,32 @@ loadProfile(){
     const {auth, userProfile, userRoles, userGroups, history} = this.props;
 
     var button = "Login";
+
+    var buttonFederated = "LSE Login";
+
     // console.log(this.userProfile)
 
     // const { userProfile } = this.state;
 
     var brandComponent = <Button onClick={() => {auth.login()}} className={classes.title}>{button}</Button>;
+    var samlButton = <Button onClick={() => {auth.loginFederated()}} className={classes.title}>{buttonFederated}</Button>;
 
     if(auth && auth.isAuthenticated()){
       if(userProfile){
-        button = userProfile.nickname;
+
+        if(userRoles && userRoles.includes("Federated User")){
+          button =  userProfile.email
+        }else{
+          button = userProfile.nickname;
+        }
+
+        
       }else{
         button = "Loading profile" + userProfile  ;
       }
       
       brandComponent = <Button onClick={() => {this.props.history.push(`/`)}}  className={classes.title}>{button}</Button>;
+      samlButton = null;
     }
     
     return (
@@ -140,6 +152,7 @@ loadProfile(){
           {leftLinks !== undefined ? brandComponent : null}
           <div className={classes.flex}>
              {brandComponent}
+             {samlButton}
           </div>
           <Hidden smDown implementation="css">
             {(auth && auth.isAuthenticated() && userProfile) ? (<HeaderLinks 

@@ -33,7 +33,7 @@ import work5 from "assets/img/examples/clem-onojegaw.jpg";
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
 // Authorization
-import { hasRole, isAllowed, getGroups, getRoles } from '../../authorization';
+import { hasRole, isAllowed, getGroups, getRoles, getConnectionStratey } from '../../authorization';
 
 
 class ProfilePage extends React.Component {

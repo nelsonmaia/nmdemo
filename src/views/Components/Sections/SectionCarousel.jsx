@@ -28,6 +28,7 @@ class SectionCarousel extends React.Component {
     return (
       <div className={classes.section}>
         <div className={classes.container}>
+          <h3 className={classes.cardTitle}>Amazing customer contents</h3>
           <GridContainer>
             <GridItem xs={12} sm={12} md={8} className={classes.marginAuto}>
               <Card carousel>

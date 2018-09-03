@@ -25,13 +25,15 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 
 // Sections for this page
 import ProductSection from "./Sections/ProductSection.jsx";
+import FederatedSection from "./Sections/FederatedSection.jsx";
 import TeamSection from "./Sections/TeamSection.jsx";
 import WorkSection from "./Sections/WorkSection.jsx";
 import Welcome from "./Sections/Welcome.jsx";
 import SubscriberSection from "./Sections/SubscriberSection.jsx";
+import SectionCarousel from "../Components/Sections/SectionCarousel.jsx";
 
 // Authorization
-import { hasRole, isAllowed, getGroups, getRoles } from '../../authorization';
+import { hasRole, isAllowed, getGroups, getRoles, isUserSocial } from '../../authorization';
 
 
 const dashboardRoutes = [];
@@ -107,6 +109,7 @@ class LandingPage extends React.Component {
       
     }
     
+    const isSocial = isUserSocial(userProfile);
 
     return (
       <div>
@@ -126,25 +129,47 @@ class LandingPage extends React.Component {
               userGroups = {userGroups}
               {...rest}
             />
-        <Parallax filter image={userGroups.includes("marketing") ? 
-              (
-                require("assets/img/bg3.jpg") ) : 
-                  (auth.isAuthenticated() ? 
-                    require("assets/img/profile_city.jpg") : 
-                    require("assets/img/bg.jpg")
-              )}>
-          <div className={classes.container}>
-            <Welcome userGroups={userGroups} auth={auth} userRoles={userRoles} />
-          </div>
-        </Parallax>
+
+          {userRoles && userRoles.includes("Federated User") ? (
+ <Parallax small image={require("assets/img/profile-bg.jpg")}>
+<div className={classes.container}>
+<Welcome userGroups={userGroups} auth={auth} userRoles={userRoles} profile={userProfile} />
+</div>
+</Parallax>
+          ) : (
+            <Parallax filter image={userGroups.includes("marketing") ? 
+            (
+              require("assets/img/bg3.jpg") ) : 
+                (auth.isAuthenticated() ? userRoles.includes("Federated User") ? require("assets/img/bg4.jpg") :
+                  require("assets/img/profile_city.jpg") : 
+                  require("assets/img/bg.jpg")
+       )}>
+        <div className={classes.container}>
+          <Welcome userGroups={userGroups} auth={auth} userRoles={userRoles} profile={userProfile} />
+        </div>
+      </Parallax>
+          )}
+         
+        
+
+       
         <div className={classNames(classes.main, classes.mainRaised)}>
+        {!isSocial ? (
           <div className={classes.container}>
             {teamSection}
             {workSection}
-            <ProductSection />
-            
+            {subscriptionSection}
+            {auth.isAuthenticated() && !userRoles.includes("Federated User") ? (
+                <SectionCarousel />
+            ): null}
+          
           </div>
-          {subscriptionSection}
+          ) : (
+            <ProductSection />
+          )}
+          {auth.isAuthenticated() && userRoles.includes("Federated User") ? (
+              <FederatedSection/>
+          ) : null}
         </div>
         <Footer />
       </div>
