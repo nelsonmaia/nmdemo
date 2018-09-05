@@ -114,7 +114,36 @@ function HeaderLinks({ ...props }) {
                       <Email className={classes.icons} />
                     </Button>
                   </ListItem>
-                 ) : null}
+                 ) : (
+                  <ListItem className={classes.listItem}>
+
+                    <CustomDropdown
+                      left
+                      caret={false}
+                      hoverColor="black"
+                      dropdownHeader={headerText}
+                      buttonText={
+                        <img
+                        src="http://personal.lse.ac.uk/marcoci/dgl2015/LSE2.png"
+                          className={classes.img}
+                          alt="profile"
+                        />
+                      }
+                      buttonProps={{
+                        className:
+                          classes.navLink + " " + classes.imageDropdownButton,
+                        color: "transparent"
+                      }}
+                      dropdownList={[
+                        {"text":"Me", "link" : "profile"},
+                        {"text": "Settings and other stuff", "link" : "profile"},
+                        {"text":"Sign out", "link" : "logout"}
+                      ]}
+                      auth={auth}
+                      history={history}
+                    />
+                </ListItem>
+                 )}
                   
                   <ListItem className={classes.listItem}>
                     <CustomDropdown

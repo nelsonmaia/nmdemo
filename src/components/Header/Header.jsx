@@ -43,7 +43,12 @@ class Header extends React.Component {
     }
   }
   headerColorChange() {
-    const { classes, color, changeColorOnScroll } = this.props;
+    const { classes, changeColorOnScroll, userRoles } = this.props;
+
+    var {color} = this.props;
+
+    
+
     const windowsScrollTop = window.pageYOffset;
     if (windowsScrollTop > changeColorOnScroll.height) {
       document.body
@@ -101,13 +106,20 @@ loadProfile(){
   render() {
     const {
       classes,
-      color,
       rightLinks,
       leftLinks,
       brand,
       fixed,
-      absolute
+      absolute,
+      userRoles
     } = this.props;
+
+    var {color} =  this.props;
+
+    if(userRoles && userRoles.includes("Federated User")){
+      color = "rose";
+    }
+
     const appBarClasses = classNames({
       [classes.appBar]: true,
       [classes[color]]: color,
@@ -115,7 +127,7 @@ loadProfile(){
       [classes.fixed]: fixed
     });
 
-    const {auth, userProfile, userRoles, userGroups, history} = this.props;
+    const {auth, userProfile, userGroups, history} = this.props;
 
     var button = "Login";
 
