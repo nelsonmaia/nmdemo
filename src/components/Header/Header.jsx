@@ -141,7 +141,7 @@ loadProfile(){
 
     var brandComponent = <Button onClick={() => {auth.login()}} className={classes.title}>{button}</Button>;
     var samlButton = <Button onClick={() => {auth.loginFederated()}} className={classes.title}>{buttonFederated}</Button>;
-    var lsuButton = <Button onClick={() => {auth.loginFederated()}} className={classes.title}>{buttonLuLogin}</Button>;
+    var lsuButton = <Button onClick={() => {auth.loginLU()}} className={classes.title}>{buttonLuLogin}</Button>;
 
     if(auth && auth.isAuthenticated()){
       if(userProfile){

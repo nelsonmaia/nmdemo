@@ -41,6 +41,17 @@ export default class Auth {
 
   }
 
+loginLU(){
+  this.auth0.authorize({
+    connection: 'LondonUniversity',
+    redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
+    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+    responseType: 'token id_token',
+    scope: 'openid profile email '
+  });
+}
+
+
   handleAuthentication() {
 
     console.log("handling authentication");
