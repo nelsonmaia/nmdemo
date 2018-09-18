@@ -133,12 +133,15 @@ loadProfile(){
 
     var buttonFederated = "LSE Login";
 
+    var buttonLuLogin = "LU Login"
+
     // console.log(this.userProfile)
 
     // const { userProfile } = this.state;
 
     var brandComponent = <Button onClick={() => {auth.login()}} className={classes.title}>{button}</Button>;
     var samlButton = <Button onClick={() => {auth.loginFederated()}} className={classes.title}>{buttonFederated}</Button>;
+    var lsuButton = <Button onClick={() => {auth.loginFederated()}} className={classes.title}>{buttonLuLogin}</Button>;
 
     if(auth && auth.isAuthenticated()){
       if(userProfile){
@@ -156,6 +159,7 @@ loadProfile(){
       
       brandComponent = <Button onClick={() => {this.props.history.push(`/`)}}  className={classes.title}>{button}</Button>;
       samlButton = null;
+      lsuButton = null;
     }
     
     return (
@@ -165,6 +169,7 @@ loadProfile(){
           <div className={classes.flex}>
              {brandComponent}
              {samlButton}
+             {lsuButton}
           </div>
           <Hidden smDown implementation="css">
             {(auth && auth.isAuthenticated() && userProfile) ? (<HeaderLinks 

@@ -16,6 +16,7 @@ const auth = new Auth();
 
 const handleAuthentication = (nextState, replace) => {
   if (/access_token|id_token|error/.test(nextState.location.hash)) {
+    console.log("it contains a token");
     auth.handleAuthentication();
   }else{
     history.replace("/");

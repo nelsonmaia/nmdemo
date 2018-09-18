@@ -45,7 +45,9 @@ export default class Auth {
 
     console.log("handling authentication");
 
-    this.auth0.parseHash((err, authResult) => {
+    this.auth0.parseHash({
+      __enableIdPInitiatedLogin: true
+    },(err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         history.replace('/');
