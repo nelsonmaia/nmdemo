@@ -73,3 +73,15 @@ export const isUserSocial = (userProfile) => {
     
 }
 
+export const getB2B = (userProfile) => {
+  var b2b;
+
+  if(userProfile){
+      if(userProfile["https://nmdemo.com/b2b"]){
+       b2b = userProfile["https://nmdemo.com/b2b"];
+      }
+    }
+
+  return b2b;
+}
+

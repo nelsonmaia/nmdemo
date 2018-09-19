@@ -20,6 +20,9 @@ import Menu from "@material-ui/icons/Menu";
 // core components
 import headerStyle from "assets/jss/material-kit-react/components/headerStyle.jsx";
 
+import { getB2B } from '../../authorization';
+
+
 class Header extends React.Component {
   constructor(props) {
     super(props);
@@ -135,6 +138,8 @@ loadProfile(){
 
     var buttonLuLogin = "LU Login"
 
+    var buttonOxford = "Oxford"
+
     // console.log(this.userProfile)
 
     // const { userProfile } = this.state;
@@ -142,12 +147,16 @@ loadProfile(){
     var brandComponent = <Button onClick={() => {auth.login()}} className={classes.title}>{button}</Button>;
     var samlButton = <Button onClick={() => {auth.loginFederated()}} className={classes.title}>{buttonFederated}</Button>;
     var lsuButton = <Button onClick={() => {auth.loginLU()}} className={classes.title}>{buttonLuLogin}</Button>;
+    var oxfordButton = <Button onClick={() => {auth.loginOxford()}} className={classes.title}>{buttonOxford}</Button>;
+
+
 
     if(auth && auth.isAuthenticated()){
       if(userProfile){
 
-        if(userRoles && userRoles.includes("Federated User")){
-          button =  userProfile.email
+        if(userRoles && ( userRoles.includes("Federated User") || userRoles.includes("Business User") ) ){
+          button =  userProfile.nickname + ' @ ' + getB2B(userProfile)
+          
         }else{
           button = userProfile.nickname;
         }
@@ -160,6 +169,7 @@ loadProfile(){
       brandComponent = <Button onClick={() => {this.props.history.push(`/`)}}  className={classes.title}>{button}</Button>;
       samlButton = null;
       lsuButton = null;
+      oxfordButton = null;
     }
     
     return (
@@ -170,6 +180,7 @@ loadProfile(){
              {brandComponent}
              {samlButton}
              {lsuButton}
+             {oxfordButton}
           </div>
           <Hidden smDown implementation="css">
             {(auth && auth.isAuthenticated() && userProfile) ? (<HeaderLinks 
