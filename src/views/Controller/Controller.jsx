@@ -10,7 +10,7 @@ class Controller extends React.Component {
       }
 
     render(){
-        return null;
+        return localStorage.getItem('auth_error');
     }
 
 }

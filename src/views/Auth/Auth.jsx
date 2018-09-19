@@ -45,7 +45,7 @@ loginLU(){
   this.auth0.authorize({
     connection: 'LondonUniversity',
     redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
-    audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+   //  audience: process.env.REACT_APP_AUTH0_AUDIENCE,
     responseType: 'token id_token',
     scope: 'openid profile email '
   });
@@ -63,9 +63,9 @@ loginLU(){
         this.setSession(authResult);
         history.replace('/');
       } else if (err) {
-        console.log("no else");
-        history.replace('/');
-
+        console.log("no else", err);
+        localStorage.setItem('auth_error', JSON.stringify(err, null, '  '))
+        history.replace('/error');
 
         console.log(err);
       }else{
