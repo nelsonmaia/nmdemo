@@ -19,16 +19,16 @@ class Welcome extends React.Component {
     render() {
         const { classes, userGroups, userRoles, auth, profile } = this.props;
 
-        const isSocial = getConnectionStratey(profile);
+        const isSocial = getConnectionStratey(profile) || userGroups.length === 0;
 
         return (
             <GridContainer>
                 <GridItem xs={12} sm={12} md={6}>
-                    {!isSocial ? (
+                    {!isSocial || !(userGroups.length === 0) ? (
                         <h1 className={classes.title}>
                             {userGroups.includes('marketing') ?
                                 ("Marketing is the future") :
-                                auth.isAuthenticated() ? userRoles.includes("Federated User")  || userRoles.includes("Business User")  ? null : ("The authentication and authorization has began") :
+                                auth.isAuthenticated() ? userRoles.includes("Federated User")  || userRoles.includes("Business User") || userGroups.length === 0  ? null : ("The authentication and authorization has began") :
                                     ("Your Story Starts With Us.")}
                         </h1>
                         
@@ -61,7 +61,7 @@ class Welcome extends React.Component {
                         <h4>Social connection user</h4>
                     ) : null}
                     <br />
-                    {isSocial ? (
+                    {isSocial || userGroups.length === 0 ? (
                         <Button
                             color="danger"
                             size="lg"
@@ -74,7 +74,7 @@ class Welcome extends React.Component {
                     ) : null}
 
 
-                    {userGroups.includes('marketing') || isSocial || userRoles.includes("Federated User") ? null :
+                    {userGroups.includes('marketing') || isSocial || userRoles.includes("Federated User") || userGroups.length === 0 ? null :
                         (
 
                             <Button

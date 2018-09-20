@@ -141,9 +141,11 @@ class LandingPage extends React.Component {
             (
               require("assets/img/bg3.jpg") ) : 
                 (auth.isAuthenticated() ? userRoles.includes("Federated User") ? require("assets/img/bg4.jpg") :
-                   isSocial ? require("assets/img/social-bg.jpg")  : require("assets/img/profile_city.jpg") : 
-                  require("assets/img/bg.jpg")
-       )}>
+                   isSocial ? require("assets/img/social-bg.jpg")  : userGroups.includes("customer") ? require("assets/img/profile_city.jpg") : 
+                   require("assets/img/newcustomer-bg.jpg"):
+                  require("assets/img/bg.jpg") 
+                )}>
+                  
         <div className={classes.container}>
           <Welcome userGroups={userGroups} auth={auth} userRoles={userRoles} profile={userProfile} />
         </div>
@@ -154,7 +156,7 @@ class LandingPage extends React.Component {
 
        
         <div className={classNames(classes.main, classes.mainRaised)}>
-        {!isSocial ? (
+        {!isSocial && userGroups.length != 0 ? (
           <div className={classes.container}>
             {teamSection}
             {workSection}
