@@ -141,7 +141,7 @@ class LandingPage extends React.Component {
             (
               require("assets/img/bg3.jpg") ) : 
                 (auth.isAuthenticated() ? userRoles.includes("Federated User") ? require("assets/img/bg4.jpg") :
-                  require("assets/img/profile_city.jpg") : 
+                   isSocial ? require("assets/img/social-bg.jpg")  : require("assets/img/profile_city.jpg") : 
                   require("assets/img/bg.jpg")
        )}>
         <div className={classes.container}>
