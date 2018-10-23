@@ -140,6 +140,10 @@ loadProfile(){
 
     var buttonOxford = "Oxford"
 
+    var buttonnmaws = "Login AWS"
+
+    
+
     // console.log(this.userProfile)
 
     // const { userProfile } = this.state;
@@ -148,7 +152,7 @@ loadProfile(){
     var samlButton = <Button onClick={() => {auth.loginFederated()}} className={classes.title}>{buttonFederated}</Button>;
     var lsuButton = <Button onClick={() => {auth.loginLU()}} className={classes.title}>{buttonLuLogin}</Button>;
     var oxfordButton = <Button onClick={() => {auth.loginOxford()}} className={classes.title}>{buttonOxford}</Button>;
-
+    var awsButton = <Button onClick={() => {auth.loginCustomDb()}} className={classes.title}>{buttonnmaws}</Button>;
 
 
     if(auth && auth.isAuthenticated()){
@@ -181,6 +185,7 @@ loadProfile(){
              {samlButton}
              {lsuButton}
              {oxfordButton}
+             {awsButton}
           </div>
           <Hidden smDown implementation="css">
             {(auth && auth.isAuthenticated() && userProfile) ? (<HeaderLinks 

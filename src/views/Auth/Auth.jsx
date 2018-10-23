@@ -28,6 +28,16 @@ export default class Auth {
     });
   }
 
+  loginCustomDb() {
+    this.auth0.authorize({
+      connection: 'aws-nmauth0',
+      redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
+      audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+      responseType: 'token id_token',
+      scope: 'openid profile email '
+    });
+  }
+
   loginFederated(){
 
 
