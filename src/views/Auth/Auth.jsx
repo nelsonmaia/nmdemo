@@ -79,7 +79,7 @@ loginOxford(){
     this.auth0.parseHash({
       __enableIdPInitiatedLogin: true
     },(err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
+      if (authResult &&  authResult.idToken) {
         this.setSession(authResult);
         history.replace('/');
       } else if (err) {
