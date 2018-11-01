@@ -23,7 +23,7 @@ export default class Auth {
     this.auth0.authorize({
       redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
-      responseType: 'id_token',
+      responseType: 'token id_token',
       scope: 'openid profile email '
     });
   }
@@ -79,7 +79,7 @@ loginOxford(){
     this.auth0.parseHash({
       __enableIdPInitiatedLogin: true
     },(err, authResult) => {
-      if (authResult &&  authResult.idToken) {
+      if (authResult && authResult.accessToken && authResult.idToken) {
         this.setSession(authResult);
         history.replace('/');
       } else if (err) {
