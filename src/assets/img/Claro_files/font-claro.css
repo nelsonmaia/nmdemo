@@ -1,0 +1,23 @@
+@font-face {
+font-family:"DINMediumclaro";
+src:url("font-claro/DINMedium.eot");
+src:url("font-claro/DINMedium.eot?#iefix") format("embedded-opentype"),
+url("font-claro/DINMedium.woff2") format("woff2"),
+url("font-claro/DINMedium.woff") format("woff"),
+url("font-claro/DINMedium.ttf") format("truetype"),
+url("font-claro/DINMedium.svg#DINLight") format("svg");
+font-weight:normal;
+font-style:normal;
+}
+
+@font-face {
+font-family:"DINLightClaro";
+src:url("font-claro/DINLight.eot");
+src:url("font-claro/DINLight.eot?#iefix") format("embedded-opentype"),
+url("font-claro/DINLight.woff2") format("woff2"),
+url("font-claro/DINLight.woff") format("woff"),
+url("font-claro/DINLight.ttf") format("truetype"),
+url("font-claro/DINLight.svg#DINLight") format("svg");
+font-weight:500;
+font-style:normal;
+}

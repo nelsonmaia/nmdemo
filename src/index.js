@@ -6,6 +6,7 @@ import Auth from 'views/Auth/Auth.jsx';
 import Callback from "views/Callback/Callback.jsx";
 import history from 'views/History/History.jsx';
 import Components from "views/Components/Components.jsx";
+import Verify from "views/Components/VeryProfile.jsx";
 import LandingPage from "views/LandingPage/LandingPage.jsx";
 import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import Controller from "views/Controller/Controller.jsx";
@@ -31,6 +32,7 @@ ReactDOM.render(
       <Route path="/" render={(props) => <Controller auth={auth} {...props} />} />
       <Route exact path="/" render={(props) => <LandingPage auth={auth} {...props} />} />
       <Route path="/components" render={(props) => <Components auth={auth} {...props} />} />
+      <Route path="/verify" render={(props) => <Verify auth={auth} {...props} />} />
       <Route path="/callback" render={(props) => {
           handleAuthentication(props);
           return <Callback {...props} /> 
