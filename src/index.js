@@ -6,7 +6,7 @@ import Auth from 'views/Auth/Auth.jsx';
 import Callback from "views/Callback/Callback.jsx";
 import history from 'views/History/History.jsx';
 import Components from "views/Components/Components.jsx";
-import Verify from "views/Components/VeryProfile.jsx";
+import Verify from "views/Components/VerifyProfile.jsx";
 import LandingPage from "views/LandingPage/LandingPage.jsx";
 import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import Controller from "views/Controller/Controller.jsx";
