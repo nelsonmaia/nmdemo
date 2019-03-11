@@ -46,7 +46,7 @@ class Components extends React.Component {
           <SectionInput />
          
           <GridItem md={12} className={classes.textCenter}>
-            <Link to={"https://" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?state="+params.state} className={classes.link}>
+            <Link to={"//" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?state="+params.state} className={classes.link}>
               <Button color="primary" size="lg" simple>
                 Continue 
               </Button>
