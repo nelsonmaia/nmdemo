@@ -28,6 +28,8 @@ export default class Auth {
     });
   }
 
+  
+
   loginCustomDb() {
     this.auth0.authorize({
       connection: 'aws-nmauth0',
