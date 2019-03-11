@@ -21,6 +21,11 @@ import queryString from 'query-string';
 import componentsStyle from "assets/jss/material-kit-react/views/components.jsx";
 
 class Components extends React.Component {
+
+    redirectContinue(){
+ window.location = "https://google.com"
+    }
+
   render() {
     const { classes,auth, ...rest } = this.props;
 
@@ -46,11 +51,10 @@ class Components extends React.Component {
           <SectionInput />
          
           <GridItem md={12} className={classes.textCenter}>
-            <Link to={"//" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?state="+params.state} className={classes.link}>
-              <Button color="primary" size="lg" simple>
+              <Button color="primary" size="lg" simple onClick={() => {window.location = "https://" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?state="+params.state}}>
                 Continue 
               </Button>
-            </Link>
+            
           </GridItem>
 
         </div>
