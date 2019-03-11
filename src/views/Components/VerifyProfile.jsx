@@ -16,12 +16,16 @@ import Parallax from "components/Parallax/Parallax.jsx";
 // sections for this page
 import HeaderLinks from "components/Header/HeaderLinks.jsx";
 import SectionInput from "./Sections/SectionInput.jsx";
+import queryString from 'query-string';
 
 import componentsStyle from "assets/jss/material-kit-react/views/components.jsx";
 
 class Components extends React.Component {
   render() {
     const { classes,auth, ...rest } = this.props;
+
+   let params = queryString.parse(this.props.location.search)
+
     return (
       <div>
         <Header
@@ -42,9 +46,9 @@ class Components extends React.Component {
           <SectionInput />
          
           <GridItem md={12} className={classes.textCenter}>
-            <Link to={"https://" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?state="+this.props.location.search.state} className={classes.link}>
+            <Link to={"https://" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?state="+params.state} className={classes.link}>
               <Button color="primary" size="lg" simple>
-                Continue
+                Continue 
               </Button>
             </Link>
           </GridItem>
