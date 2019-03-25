@@ -142,6 +142,8 @@ loadProfile(){
 
     var buttonnmaws = "Login AWS"
 
+    var buttonazure = "Login Azure AD"
+
     
 
     // console.log(this.userProfile)
@@ -153,6 +155,7 @@ loadProfile(){
     var lsuButton = <Button onClick={() => {auth.loginLU()}} className={classes.title}>{buttonLuLogin}</Button>;
     var oxfordButton = <Button onClick={() => {auth.loginOxford()}} className={classes.title}>{buttonOxford}</Button>;
     var awsButton = <Button onClick={() => {auth.loginCustomDb()}} className={classes.title}>{buttonnmaws}</Button>;
+    var azureAdButton = <Button onClick={() => {auth.loginAzureAd()}} className={classes.title}>{buttonazure}</Button>;
 
 
     if(auth && auth.isAuthenticated()){
@@ -186,6 +189,7 @@ loadProfile(){
              {lsuButton}
              {oxfordButton}
              {awsButton}
+             {azureAdButton}
           </div>
           <Hidden smDown implementation="css">
             {(auth && auth.isAuthenticated() && userProfile) ? (<HeaderLinks 
