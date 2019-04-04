@@ -21,10 +21,11 @@ export default class Auth {
 
   login() {
     this.auth0.authorize({
+      connection: "stark-accutech-conn",
       redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       responseType: 'token id_token',
-      scope: 'openid profile email ASWS.Common.mep_himalia.All.Read read_users '
+      scope: 'openid profile email'
     });
   }
 
