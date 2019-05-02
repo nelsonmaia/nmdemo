@@ -15,13 +15,13 @@ export default class Auth {
   userProfile;
 
   auth0 = new auth0.WebAuth({
-    domain: process.env.REACT_APP_AUTH0_DOMAIN,
-    clientID: process.env.REACT_APP_AUTH0_CLIENT_ID,
+    domain: process.env.REACT_APP_AUTH0_DOMAIN, // Cambridge Tenant Domain
+    clientID: process.env.REACT_APP_AUTH0_CLIENT_ID, // Cambridge Tenant Application Client ID
   });
 
   login() {
     this.auth0.authorize({
-      connection: "stark-accutech-conn",
+      // connection: "stark-accutech-conn", // Connection points to a second tenant (Auth0)
       redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       responseType: 'token id_token',
