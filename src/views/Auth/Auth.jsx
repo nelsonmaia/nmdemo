@@ -26,7 +26,7 @@ export default class Auth {
       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       responseType: 'token id_token',
       scope: 'openid profile email',
-      ADDITIONAL_PARAMETERS: 'max_age=800'
+      max_age: '800'
     });
   }
 
