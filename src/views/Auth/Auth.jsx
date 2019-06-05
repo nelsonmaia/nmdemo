@@ -128,7 +128,7 @@ loginOxford(){
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // navigate to the home route
-    this.auth0.logout({returnTo: process.env.REACT_APP_AUTH0_CALLBACK_URL});
+    this.auth0.logout({returnTo: process.env.REACT_APP_AUTH0_CALLBACK_URL, federated: true});
     history.replace('/');
   }
 
