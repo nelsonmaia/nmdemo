@@ -26,6 +26,7 @@ export default class Auth {
       audience: process.env.REACT_APP_AUTH0_AUDIENCE,
       responseType: 'token id_token',
       scope: 'openid profile email',
+      login_hint: 'nelson.matias@auth0.com',
       max_age: '800'
     });
   }
