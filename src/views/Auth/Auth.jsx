@@ -67,13 +67,23 @@ export default class Auth {
   }
 
 loginLU(){
+  // this.auth0.authorize({
+  //   connection: 'LondonUniversity',
+  //   redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
+  //  //  audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+  //   responseType: 'token id_token',
+  //   scope: 'openid profile email '
+  // });
+
   this.auth0.authorize({
-    connection: 'LondonUniversity',
+      
     redirectUri: process.env.REACT_APP_AUTH0_CALLBACK_URL,
-   //  audience: process.env.REACT_APP_AUTH0_AUDIENCE,
+    // audience: process.env.REACT_APP_AUTH0_AUDIENCE,
     responseType: 'token id_token',
-    scope: 'openid profile email '
-  });
+    scope: 'openid profile email ',
+    connection: 'SAML-Auth0-IDP'});
+
+
 }
 
 loginOxford(){
@@ -129,7 +139,7 @@ loginOxford(){
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // navigate to the home route
-    this.auth0.logout({returnTo: process.env.REACT_APP_AUTH0_CALLBACK_URL, federated: true});
+    this.auth0.logout({returnTo: window.location.origin, federated: true});
     history.replace('/');
   }
 

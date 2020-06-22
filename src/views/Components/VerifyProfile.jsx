@@ -48,11 +48,14 @@ class Components extends React.Component {
         
 
         <div className={classNames(classes.main, classes.mainRaised)}>
-          <SectionInput />
-         
+          
+          For security reasons, we are suggesting our users to enroll a second factor of authentication, would you like to enroll your MFA now?
           <GridItem md={12} className={classes.textCenter}>
-              <Button color="primary" size="lg" simple onClick={() => {window.location = "https://" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?state="+params.state}}>
-                Continue 
+              <Button color="primary" size="lg" simple onClick={() => {window.location = "https://" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?enroll=true&state="+params.state}}>
+                Enroll MFA 
+              </Button>
+              <Button color="primary" size="lg" simple onClick={() => {window.location = "https://" + process.env.REACT_APP_AUTH0_DOMAIN + "/continue?enroll=false&state="+params.state}}>
+                Continue without MFA
               </Button>
             
           </GridItem>

@@ -132,17 +132,17 @@ loadProfile(){
 
     const {auth, userProfile, userGroups, history} = this.props;
 
-    var button = "Login";
+    var button = "A0";
 
-    var buttonFederated = "LSE Login";
+    var buttonFederated = "NMSaml";
 
-    var buttonLuLogin = "LU Login"
+    var buttonLuLogin = "Stark"
 
-    var buttonOxford = "Oxford"
+    var buttonOxford = "Uni"
 
-    var buttonnmaws = "Login AWS"
+    var buttonnmaws = "AWS"
 
-    var buttonazure = "Login Azure AD"
+    var buttonazure = "Azure"
 
     
 
@@ -174,8 +174,8 @@ loadProfile(){
       }
       
       brandComponent = <Button onClick={() => {this.props.history.push(`/`)}}  className={classes.title}>{button}</Button>;
-      samlButton = null;
-      lsuButton = null;
+      // samlButton = null;
+      //lsuButton = null;
       oxfordButton = null;
     }
     
